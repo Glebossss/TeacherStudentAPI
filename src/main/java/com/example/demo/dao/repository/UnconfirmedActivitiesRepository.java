@@ -1,6 +1,8 @@
 package com.example.demo.dao.repository;
 
+import com.example.demo.dao.model.CalendarEntity;
 import com.example.demo.dao.model.UnconfirmedActivitiesEntity;
+import com.example.demo.dto.UnconfirmedActivitiesDTO;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -30,5 +32,7 @@ public interface UnconfirmedActivitiesRepository extends JpaRepository<Unconfirm
     List<UnconfirmedActivitiesEntity> findByUser(@Param("from") Date from,
                                                  @Param("to") Date to,
                                                  @Param("email") String email);
+    @Query("SELECT u FROM UnconfirmedActivitiesEntity u where u.id = :id")
+    UnconfirmedActivitiesEntity findByIds(@Param("id") Long id);
 
 }

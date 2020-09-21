@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.dto.PageCountDTO;
 import com.example.demo.dto.exeption.AccessNotSuccessful;
 import com.example.demo.dto.result.ResultDTO;
 import com.example.demo.dto.result.SuccessResult;
@@ -41,7 +42,7 @@ public class СonfirmedActivitiesController {
     @GetMapping("/confirmedactivitiesforstudent")
     @ApiOperation(value = "Return list confirmed activities for student", response = СonfirmedActivitiesDTO.class)
     public List<СonfirmedActivitiesDTO> forStudent(OAuth2AuthenticationToken auth,
-                                                   @RequestParam(required = false, defaultValue = "0") Integer pageCount, @RequestParam(required = false, defaultValue = "0") Long not) throws AccessNotSuccessful {
+                                                   @RequestParam(required = false, defaultValue = "0", value = "page") Integer pageCount, @RequestParam(required = false, defaultValue = "0") Long not) throws AccessNotSuccessful {
         final Map<String, Object> attrs = auth.getPrincipal().getAttributes();
         final String emailStudent = (String) attrs.get("email");
         final String roleUser = userService.findByLogin(emailStudent).getRole().toString();
@@ -52,13 +53,14 @@ public class СonfirmedActivitiesController {
         }
     }
 
-    @PostMapping("/confirmedactivitiesforstudent")
+    @DeleteMapping("/confirmedactivitiesforstudent")
     @ApiOperation(value = "cancellation of a lesson", response = СonfirmedActivitiesDTO.class)
     public ResponseEntity<ResultDTO> dell(OAuth2AuthenticationToken auth,
-                                          @RequestBody СonfirmedActivitiesDTO сonfirmedActivitiesDTO) throws AccessNotSuccessful {
+                                          @RequestParam Long ids) throws AccessNotSuccessful {
         final Map<String, Object> attrs = auth.getPrincipal().getAttributes();
         final String emailStudent = (String) attrs.get("email");
         final String roleUser = userService.findByLogin(emailStudent).getRole().toString();
+        final СonfirmedActivitiesDTO сonfirmedActivitiesDTO = сonfirmedActivitiesService.findById(ids);
         if (roleUser.equals(STUDENTROLE)) {
             сonfirmedActivitiesService.del(сonfirmedActivitiesDTO.getTeacherEntity(), сonfirmedActivitiesDTO.getStudentEntity(),
                     сonfirmedActivitiesDTO.getDateStart(), сonfirmedActivitiesDTO.getDataEnd());
@@ -71,7 +73,7 @@ public class СonfirmedActivitiesController {
     @GetMapping("/confirmedactivitiesforteacher")
     @ApiOperation(value = "Return list confirmed activities for teacher", response = СonfirmedActivitiesDTO.class)
     public List<СonfirmedActivitiesDTO> forTeacher(OAuth2AuthenticationToken auth,
-                                                   @RequestParam(required = false, defaultValue = "0") Integer pageCount) throws AccessNotSuccessful {
+                                                   @RequestParam(required = false, defaultValue = "0", value = "page") Integer pageCount) throws AccessNotSuccessful {
         final Map<String, Object> attrs = auth.getPrincipal().getAttributes();
         final String emailTeachers = (String) attrs.get("email");
         final String roleUser = userService.findByLogin(emailTeachers).getRole().toString();
@@ -80,5 +82,19 @@ public class СonfirmedActivitiesController {
                     COUNT, Sort.Direction.DESC, "id"));
         } else
             throw new AccessNotSuccessful();
+    }
+
+    @GetMapping("/confirmedactivitiesforstudent/count")
+    public PageCountDTO countForStudent(OAuth2AuthenticationToken auth) {
+        final Map<String, Object> attrs = auth.getPrincipal().getAttributes();
+        final String email = (String) attrs.get("email");
+        return PageCountDTO.of(сonfirmedActivitiesService.countForStudent(email), COUNT);
+    }
+
+    @GetMapping("/confirmedactivitiesforteacher/count")
+    public PageCountDTO countForTeacher(OAuth2AuthenticationToken auth) {
+        final Map<String, Object> attrs = auth.getPrincipal().getAttributes();
+        final String email = (String) attrs.get("email");
+        return PageCountDTO.of(сonfirmedActivitiesService.countForTeacher(email), COUNT);
     }
 }

@@ -35,7 +35,7 @@ public class AdminEntity {
         return new AdminEntity(email, name, pictureURL, roleUser);
     }
 
-    public AdminDTO toStudentDTO() {
+    public AdminDTO toAdminDTO() {
         return AdminDTO.of(id, email, name, pictureURL);
     }
 

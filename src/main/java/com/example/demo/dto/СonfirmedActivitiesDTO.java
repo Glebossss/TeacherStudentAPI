@@ -7,7 +7,7 @@ import java.util.Date;
 
 @NoArgsConstructor
 public class СonfirmedActivitiesDTO {
-
+    private Long id;
     private String teacherEntity;
     private String studentEntity;
     private Date dateStart;
@@ -15,7 +15,8 @@ public class СonfirmedActivitiesDTO {
     private Long time;
     private Integer money;
 
-    public СonfirmedActivitiesDTO(String teacherEntity, String studentEntity, Date dateStart, Date dataEnd, Long time, Integer money) {
+    public СonfirmedActivitiesDTO(Long id, String teacherEntity, String studentEntity, Date dateStart, Date dataEnd, Long time, Integer money) {
+        this.id = id;
         this.teacherEntity = teacherEntity;
         this.studentEntity = studentEntity;
         this.dateStart = dateStart;
@@ -24,8 +25,8 @@ public class СonfirmedActivitiesDTO {
         this.money = money;
     }
 
-    public static СonfirmedActivitiesDTO of(String teacherEntity, String studentEntity, Date dateStart, Date dataEnd, Long time, Integer money) {
-        return new СonfirmedActivitiesDTO(teacherEntity, studentEntity, dateStart, dataEnd, time, money);
+    public static СonfirmedActivitiesDTO of(Long id, String teacherEntity, String studentEntity, Date dateStart, Date dataEnd, Long time, Integer money) {
+        return new СonfirmedActivitiesDTO(id, teacherEntity, studentEntity, dateStart, dataEnd, time, money);
     }
 
     public String getTeacherEntity() {
@@ -74,5 +75,13 @@ public class СonfirmedActivitiesDTO {
 
     public void setMoney(Integer money) {
         this.money = money;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

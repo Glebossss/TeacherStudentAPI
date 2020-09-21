@@ -1,11 +1,13 @@
 package com.example.demo.configs;
 
+import com.example.demo.dao.model.AdminEntity;
 import com.example.demo.dao.model.StudentEntity;
 import com.example.demo.dao.model.TeacherEntity;
 import com.example.demo.dao.model.UserEntity;
 import com.example.demo.dao.model.enums.RoleUser;
 import com.example.demo.dao.repository.TeacherRepository;
 import com.example.demo.email.EmailService;
+import com.example.demo.service.AdminService;
 import com.example.demo.service.StudentService;
 import com.example.demo.service.TeacherService;
 import com.example.demo.service.UserService;
@@ -46,7 +48,10 @@ public class Handlers implements AuthenticationSuccessHandler, EmailService {
     @Autowired
     private ApplicationContext applicationContext;
 
-    private static final String EMAILTEACHER = "glebgomenyuk@gmail.com";
+    @Autowired
+    AdminService adminService;
+
+    private static final String ADMIN = "glebgomenyuk@gmail.com";
     private static final String EMAILTEACHERSECOND = "gomenyukgleb@gmail.com";
 
     //Method for sending message
@@ -66,20 +71,22 @@ public class Handlers implements AuthenticationSuccessHandler, EmailService {
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
         OAuth2User user = token.getPrincipal();
         Map<String, Object> atribute = user.getAttributes();
-        if ((EMAILTEACHER).equals(atribute.get("email")) || (EMAILTEACHERSECOND).equals((String) atribute.get("email"))) {
+        if ((ADMIN).equals(atribute.get("email")) || (EMAILTEACHERSECOND).equals((String) atribute.get("email"))) {
             TeacherEntity teacherEntity = TeacherEntity.of((String) atribute.get("email"), (String) atribute.get("name"), (String) atribute.get("picture"));
             if (teacherRepository.existsByEmail((String) atribute.get("email")) == false) {
                 sendMessageForRegistr((String) atribute.get("email"), (String) atribute.get("name"));
             }
             teacherService.save(teacherEntity.toTeacherDTO());
-            if ((EMAILTEACHER).equals(atribute.get("email"))) {
-                UserEntity allUser = UserEntity.of((String) atribute.get("email"), (String) atribute.get("name"), (String) atribute.get("picture"), RoleUser.ADMIN);
-                userService.save(allUser);
-                httpServletResponse.sendRedirect("/admin");
+            if ((ADMIN).equals(atribute.get("email"))) {
+                AdminEntity adminEntity = AdminEntity.of((String) atribute.get("email"), (String) atribute.get("name"), (String) atribute.get("picture"), RoleUser.ADMIN);
+                UserEntity userEntity = UserEntity.of((String) atribute.get("email"), (String) atribute.get("name"), (String) atribute.get("picture"), RoleUser.ADMIN);
+                adminService.save(adminEntity);
+                userService.save(userEntity);
+                httpServletResponse.sendRedirect("/admin.html");
             } else if ((EMAILTEACHERSECOND).equals(atribute.get("email"))) {
                 UserEntity allUser = UserEntity.of((String) atribute.get("email"), (String) atribute.get("name"), (String) atribute.get("picture"), RoleUser.TEACHER);
                 userService.save(allUser);
-                httpServletResponse.sendRedirect("/teacher");
+                httpServletResponse.sendRedirect("/teacherprofile.html");
             }
         } else {
             StudentEntity studentEntity = StudentEntity.of((String) atribute.get("email"), (String) atribute.get("name"), (String) atribute.get("picture"));
@@ -89,7 +96,7 @@ public class Handlers implements AuthenticationSuccessHandler, EmailService {
                 sendMessageForRegistr((String) atribute.get("email"), (String) atribute.get("name"));
             userService.save(allUser);
             studentService.save(studentEntity);
-            httpServletResponse.sendRedirect("/student");
+            httpServletResponse.sendRedirect("/students.html");
         }
     }
 }

@@ -49,7 +49,7 @@ public class UnconfirmedActivitiesEntity {
     }
 
     public UnconfirmedActivitiesDTO toUnconfirmedActivitiesDTO() {
-        return UnconfirmedActivitiesDTO.of(teacherEntity.getEmail(), studentEntity.getEmail(), dateStart, dateEnd, time, money);
+        return UnconfirmedActivitiesDTO.of(teacherEntity.getEmail(), studentEntity.getEmail(), dateStart, dateEnd, time, money, id);
     }
 
     public Long getId() {

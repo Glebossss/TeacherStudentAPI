@@ -90,4 +90,23 @@ public class СonfirmedActivitiesServiceImp implements СonfirmedActivitiesServi
         final СonfirmedActivitiesEntity сonfirmedActivitiesEntity = confirmedActivitiesRepository.findByEmailTeacherAndStudent(emailTeacher, emailStudent, dateStart, dateEnd);
         confirmedActivitiesRepository.delete(сonfirmedActivitiesEntity);
     }
+
+    @Transient
+    @Override
+    public long countForStudent(String email) {
+        return confirmedActivitiesRepository.findByEmailStudent(email).size();
+    }
+
+
+    @Transient
+    @Override
+    public long countForTeacher(String email) {
+        return confirmedActivitiesRepository.findByEmailTeacher(email).size();
+    }
+
+    @Transient
+    @Override
+    public СonfirmedActivitiesDTO findById(Long id) {
+        return confirmedActivitiesRepository.findByIds(id).toConfirmedActivitiesDTO();
+    }
 }

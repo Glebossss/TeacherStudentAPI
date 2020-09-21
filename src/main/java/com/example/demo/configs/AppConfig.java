@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.beans.Transient;
 import java.util.List;
@@ -22,7 +24,8 @@ import java.util.List;
 
 @Configuration
 @PropertySource("classpath:application.properties")
-public class AppConfig {
+public class AppConfig implements WebMvcConfigurer {
+
 
     @Autowired
     SubjectService subjectService;
@@ -64,10 +67,17 @@ public class AppConfig {
 
                 if (subjectEntitiesList.isEmpty()) {
                     addTeachers.teacherEntities();
-
                     subjectEntities.forEach(subjectService::saveFOrSttrat);
                 }
             }
         };
     }
+//
+//    @Override
+//    public void addViewControllers(ViewControllerRegistry registry) {
+//        registry.addViewController("/login")
+//                .setViewName("redirect:/login/");
+//        registry.addViewController("/login/")
+//                .setViewName("forward:/login.html");
+//    }
 }

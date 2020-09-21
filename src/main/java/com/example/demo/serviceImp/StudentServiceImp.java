@@ -1,6 +1,7 @@
 package com.example.demo.serviceImp;
 
 import com.example.demo.dao.model.StudentEntity;
+import com.example.demo.dao.model.SubjectEntity;
 import com.example.demo.dao.repository.StudentRepository;
 import com.example.demo.dto.StudentDTO;
 import com.example.demo.service.StudentService;
@@ -56,5 +57,13 @@ public class StudentServiceImp implements StudentService {
 
         final StudentDTO studentDTO = studentRepository.findByStudentEmail(email).toStudentDTO();
         return studentDTO;
+    }
+
+    @Transactional
+    @Override
+    public long count() {
+        List<StudentEntity> studentEntities = studentRepository.findAll();
+        Long count = Long.valueOf(studentEntities.size());
+        return count;
     }
 }

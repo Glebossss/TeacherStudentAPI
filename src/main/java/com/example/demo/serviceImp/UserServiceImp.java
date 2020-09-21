@@ -12,6 +12,7 @@ import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.beans.Transient;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.List;
 @Service
 public class UserServiceImp implements UserService {
 
-    private static final String ROLE = "STUDENT";
+    private static final String ROLE = "ROLE_STUDENT";
 
     @Autowired
     UserRepository userRepository;
@@ -43,8 +44,9 @@ public class UserServiceImp implements UserService {
     @Transient
     @Override
     public void save(UserEntity allUser) {
-        if (userRepository.existsByEmail(allUser.getEmail()))
+        if (userRepository.existsByEmail(allUser.getEmail())) {
             return;
+        }
         userRepository.save(allUser);
     }
 
@@ -54,6 +56,8 @@ public class UserServiceImp implements UserService {
 
         final RoleUser roleUser = userRepository.findByEmail(email).getRole();
         final String rool = roleUser.toString();
+        System.out.println(rool + "--------------------------");
+
         if (rool.equals(ROLE)) {
             final UserEntity userEntity = userRepository.findByEmail(email);
             userEntity.setRole(RoleUser.TEACHER);
@@ -63,14 +67,13 @@ public class UserServiceImp implements UserService {
                     userEntity.getPictureURL());
             teacherRepository.save(teacherEntity);
             studentRepository.delete(studentEntity);
-        } else {
+        } else if(rool.equals("ROLE_TEACHER")){
             final UserEntity userEntity = userRepository.findByEmail(email);
             userEntity.setRole(RoleUser.STUDENT);
             final TeacherEntity teacherEntity = teacherRepository.findByEmail(email);
             final StudentEntity studentEntity = new StudentEntity(userEntity.getEmail(),
                     userEntity.getName(),
                     userEntity.getPictureURL());
-
             studentRepository.save(studentEntity);
             teacherRepository.delete(teacherEntity);
         }
@@ -94,4 +97,13 @@ public class UserServiceImp implements UserService {
 
         return userDTOS;
     }
+
+    @Transactional
+    @Override
+    public long count() {
+        List<UserEntity> userEntities = userRepository.findAll();
+        Long count = Long.valueOf(userEntities.size());
+        return count;
+    }
 }
+

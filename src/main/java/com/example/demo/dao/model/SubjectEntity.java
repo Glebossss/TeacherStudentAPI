@@ -59,14 +59,6 @@ public class SubjectEntity {
         this.name = name;
     }
 
-    public List<TeacherEntity> getTeacherEntityList() {
-        return teacherEntityList;
-    }
-
-    public void setTeacherEntityList(List<TeacherEntity> teacherEntityList) {
-        this.teacherEntityList = teacherEntityList;
-    }
-
     @Override
     public String toString() {
         return name;

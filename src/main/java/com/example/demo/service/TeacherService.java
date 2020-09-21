@@ -17,4 +17,6 @@ public interface TeacherService {
     public TeacherDTO findOne(String email);
 
     public List<TeacherDTO> findAllTeacherByPage(Pageable pageable);
+
+    public long count();
 }

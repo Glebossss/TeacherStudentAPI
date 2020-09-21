@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <title>Google Authentication sample</title>
+
+    <link rel="stylesheet" href="css/login.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <style>
+        body {
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="#" class="navbar-brand ">MySite</a>
+        </div>
+
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="/unconfirmedactivitiesforteacher.html">Unconfirm Lesons</a></li>
+                <li><a href="/confirmedactivitiesforteacher.html">Confirm Lessons</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<br>
+
+<h2>Teacher profile</h2>
+
+<img class="thumbnail" id="avatar" src="">
+<div id="login" value="">...</div>
+<div id="name">...</div>
+<div id="nameSubject">...</div>
+<input id="price" value="" type="text"></input>
+<select id="test" name="">
+    <option selected="selected" id="default" value=""></option>
+
+
+</select>
+
+<button onclick="reply_click()">Uppdate</button>
+
+
+<hr>
+
+
+<div id="addModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Lesons</h4>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>
+                            Start: <input type="datetime-local" name="startDate" value="startDate"
+                                          placeholder="startDate" id="startDate"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <select name="endDate" placeholder="endDate" id="time">
+                                <option>15</option>
+                                <option>30</option>
+                                <option>60</option>
+                                <option>90</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" id="submitButton" value="Add" onclick="test()"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="nav-link" href="#" data-toggle="modal" data-target="#addModal">Add</button>
+
+<table id="data" class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Data End</th>
+        <th scope="col">Data Start</th>
+        <th scope="col">Mony</th>
+        <th scope="col">Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<br>
+
+<nav aria-label="Page navigation">
+    <ul id="pages" class="pagination"></ul>
+</nav>
+
+
+<footer>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <p class="text-center text-muted">2020 Gleb Developer</p>
+        </div>
+    </nav>
+</footer>
+
+<script>
+    function test() {
+        var time = parseInt($("#time").val(), 10);
+        var dataStart = new Date($("#startDate").val());
+        var dataEnd = new Date($("#startDate").val());
+        dataEnd.setMinutes(dataEnd.getMinutes()+time)
+        var price = parseInt($("#price").val(), 10);
+        var email = parseInt($("#login").val(), 10);
+        var calendarDTO = {
+            dataEnd: dataEnd,
+            dateStart: dataStart,
+            money: price,
+            time: time
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/calendar/" + email,
+            contentType: "application/json",
+            data: JSON.stringify(calendarDTO),
+            dataType: "json",
+            success: function (data) {
+                window.location.reload()
+            }
+        }
+    );
+
+    console.log($("#startDate").val())
+    console.log(dataStart)
+    console.log(dataEnd)
+
+
+    }
+
+    function reply_click() {
+        $.getJSON('/teacher', function (data) {
+            var sub = $("#nameSubject").val();
+            console.log(sub)
+            var email = data.email;
+            var price = $("#price").val();
+            var img = $("#avatar").val();
+            var nameSub = $("#test").val();
+            if (nameSub == null) {
+                nameSub = sub
+            }
+            $.ajax({
+                type: "PUT",
+                url: "/teacher/" + email,
+                data: {
+                    'price': parseInt(price, 10),
+                    'subName': nameSub
+                },
+                success: function (data) {
+                    window.location.reload()
+                }
+            })
+        });
+    }
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="js/teacherprofile.js"></script>
+</body>
+</html>

@@ -11,11 +11,6 @@
     </parent>
 
 
-    <properties>
-        <maven.compiler.source>3.6.3</maven.compiler.source>
-        <maven.compiler.target>3.6.3</maven.compiler.target>
-    </properties>
-
     <groupId>com.example</groupId>
     <artifactId>demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -118,6 +113,7 @@
                 <configuration>
                 </configuration>
             </plugin>
+
 
 
         </plugins>

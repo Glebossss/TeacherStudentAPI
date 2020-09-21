@@ -20,4 +20,10 @@ public interface UnconfirmedActivitiesService {
     public void save(String emailStudent, String emailTeacher, CalendarDTO calendarDTO);
 
     public void declineActifities(String emailTeacher, String emailStudent, Date dateStart, Date dateEnd);
+
+    public long countForStudent(String email);
+
+    public long countForTeacher(String email);
+
+    public UnconfirmedActivitiesDTO findById(Long id);
 }

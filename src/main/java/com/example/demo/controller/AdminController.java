@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Api(value = "Api for admin service")
 public class AdminController {
 
@@ -26,11 +28,9 @@ public class AdminController {
     @Autowired
     UserService userService;
 
-    @Autowired
-    SubjectService subjectService;
-
     //Controller for admin.
     @GetMapping
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @ApiOperation(value = "Return admin", response = AdminDTO.class)
     public UserDTO admininput(OAuth2AuthenticationToken auth) throws AccessNotSuccessful {
 

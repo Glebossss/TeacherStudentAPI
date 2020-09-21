@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.PageCountDTO;
 import com.example.demo.dto.StudentDTO;
 import com.example.demo.dto.exeption.AccessNotSuccessful;
 import com.example.demo.service.*;
@@ -9,16 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/student")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Api(value = "Api for student service")
 public class StudentController {
 
@@ -54,6 +53,7 @@ public class StudentController {
     }
 
     @GetMapping(value = "/allstudent")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @ApiOperation(value = "Return list studenta", response = StudentDTO.class)
     public List<StudentDTO> allStudent(OAuth2AuthenticationToken auth, @RequestParam(required = false, value = "page", defaultValue = "0") Integer pageCount) throws AccessNotSuccessful {
         final Map<String, Object> attrs = auth.getPrincipal().getAttributes();
@@ -67,5 +67,10 @@ public class StudentController {
                     "id"));
         else
             throw new AccessNotSuccessful();
+    }
+
+    @GetMapping("count")
+    public PageCountDTO count() {
+        return PageCountDTO.of(studentService.count(), COUNT);
     }
 }

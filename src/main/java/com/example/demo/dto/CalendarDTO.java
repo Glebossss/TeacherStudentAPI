@@ -3,20 +3,31 @@ package com.example.demo.dto;
 import java.util.Date;
 
 public class CalendarDTO {
+    private Long id;
     private Date dateStart;
     private Date dataEnd;
     private Long time;
     private Integer money;
 
-    public CalendarDTO(Date dateStart, Date dataEnd, Long time, Integer money) {
+    public CalendarDTO(Long id, Date dateStart, Date dataEnd, Long time, Integer money) {
+        this.id = id;
         this.dateStart = dateStart;
         this.dataEnd = dataEnd;
         this.time = time;
         this.money = money;
     }
 
-    public static CalendarDTO of(Date dateStart, Date dataEnd, Long time, Integer money) {
-        return new CalendarDTO(dateStart, dataEnd, time, money);
+    public static CalendarDTO of(Long id, Date dateStart, Date dataEnd, Long time, Integer money) {
+        return new CalendarDTO(id, dateStart, dataEnd, time, money);
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Date getDateStart() {

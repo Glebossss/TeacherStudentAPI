@@ -19,4 +19,7 @@ public interface SubjectService {
     public void add(String email);
 
     public void saveFOrSttrat(SubjectEntity subjectEntity);
+
+    public long count();
+
 }

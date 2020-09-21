@@ -6,7 +6,7 @@ import java.util.Date;
 
 @NoArgsConstructor
 public class UnconfirmedActivitiesDTO {
-
+    private Long id;
     private String teacher;
     private String student;
     private Date dateStart;
@@ -14,7 +14,8 @@ public class UnconfirmedActivitiesDTO {
     private Long time;
     private Integer money;
 
-    public UnconfirmedActivitiesDTO(String teacher, String student, Date dateStart, Date dataEnd, Long time, Integer money) {
+    public UnconfirmedActivitiesDTO(String teacher, String student, Date dateStart, Date dataEnd, Long time, Integer money, Long id) {
+        this.id = id;
         this.teacher = teacher;
         this.student = student;
         this.dateStart = dateStart;
@@ -23,8 +24,8 @@ public class UnconfirmedActivitiesDTO {
         this.money = money;
     }
 
-    public static UnconfirmedActivitiesDTO of(String teacher, String student, Date dateStart, Date dataEnd, Long time, Integer money) {
-        return new UnconfirmedActivitiesDTO(teacher, student, dateStart, dataEnd, time, money);
+    public static UnconfirmedActivitiesDTO of(String teacher, String student, Date dateStart, Date dataEnd, Long time, Integer money, Long id) {
+        return new UnconfirmedActivitiesDTO(teacher, student, dateStart, dataEnd, time, money, id);
     }
 
     public String getTeacher() {
@@ -73,5 +74,13 @@ public class UnconfirmedActivitiesDTO {
 
     public void setMoney(Integer money) {
         this.money = money;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

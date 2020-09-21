@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.dao.model.UserEntity;
+import com.example.demo.dto.PageCountDTO;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.dto.exeption.AccessNotSuccessful;
 import com.example.demo.dto.result.ResultDTO;
@@ -52,9 +54,9 @@ public class UserController {
     //Change role for user.
     @PostMapping
     @ApiOperation(value = "Changing user role", response = UserDTO.class)
-    public ResponseEntity<ResultDTO> setStatys(@RequestBody UserDTO userDTO, OAuth2AuthenticationToken auth) throws AccessNotSuccessful {
-        final Map<String, Object> attrs = auth.getPrincipal().getAttributes();
-        final String email = (String) attrs.get("email");
+    public String setStatys(@RequestParam String email) throws AccessNotSuccessful {
+        //final Map<String, Object> attrs = auth.getPrincipal().getAttributes();
+        final UserDTO userDTO = userService.findByLogin(email);
         final String roleUser = userService.findByLogin(email).getRole().toString();
         if (roleUser.equals(ADMINROLE)) {
             userService.update(userDTO.getEmail());
@@ -62,6 +64,11 @@ public class UserController {
             throw new AccessNotSuccessful();
         }
 
-        return new ResponseEntity<>(new SuccessResult(), HttpStatus.OK);
+        return "success";
+    }
+
+    @GetMapping("count")
+    public PageCountDTO count() {
+        return PageCountDTO.of(userService.count(), COUNT);
     }
 }

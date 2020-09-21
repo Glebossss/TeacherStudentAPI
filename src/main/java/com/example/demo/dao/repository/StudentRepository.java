@@ -13,7 +13,6 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Long> {
 
     List<StudentEntity> findStudentEntitiesBy(Pageable pageable);
 
-
     @Query("SELECT u FROM StudentEntity u where u.email = :email")
     StudentEntity findByStudentEmail(@Param("email") String email);
 

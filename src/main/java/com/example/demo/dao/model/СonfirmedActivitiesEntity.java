@@ -48,7 +48,7 @@ public class СonfirmedActivitiesEntity {
     }
 
     public СonfirmedActivitiesDTO toConfirmedActivitiesDTO() {
-        return СonfirmedActivitiesDTO.of(teacherEntity.getEmail(), studentEntity.getEmail(), dateStart, dateEnd, time, money);
+        return СonfirmedActivitiesDTO.of(id, teacherEntity.getEmail(), studentEntity.getEmail(), dateStart, dateEnd, time, money);
     }
 
     public Long getId() {

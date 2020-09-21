@@ -12,5 +12,11 @@ public interface CalendarService {
 
     public List<CalendarDTO> findAllRecord(String email, Pageable pageable);
 
+    public List<CalendarDTO> findAll(String email);
+
     public void save(Date startDate, Date endtDate, Long timeLessons, String email) throws ParseException, EntetyWithDateStartAndDateEndNotCreate;
+
+    public long count();
+
+    CalendarDTO findById(Long ids);
 }

@@ -19,4 +19,10 @@ public interface СonfirmedActivitiesService {
     public List<СonfirmedActivitiesDTO> findAllTeacher(String email);
 
     public void del(String emailTeacher, String emailStudent, Date dateStart, Date dateEnd);
+
+    public long countForStudent(String email);
+
+    public long countForTeacher(String email);
+
+    public СonfirmedActivitiesDTO findById(Long id);
 }

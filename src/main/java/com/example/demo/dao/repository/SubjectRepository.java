@@ -17,4 +17,5 @@ public interface SubjectRepository extends JpaRepository<SubjectEntity, Long> {
 
     SubjectEntity findSubjectEntitiesByName(String name);
 
+
 }

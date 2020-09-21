@@ -17,4 +17,6 @@ public interface StudentService {
     public boolean findOne(String email);
 
     public StudentDTO findByEmail(String email);
+
+    public long count();
 }

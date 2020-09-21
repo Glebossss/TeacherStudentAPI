@@ -17,4 +17,6 @@ public interface UserService {
     public void update(String email);
 
     public List<UserDTO> findAllUserPagebal(Pageable pageable);
+
+    public long count();
 }

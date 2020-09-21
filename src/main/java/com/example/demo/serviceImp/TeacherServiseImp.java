@@ -1,5 +1,6 @@
 package com.example.demo.serviceImp;
 
+import com.example.demo.dao.model.StudentEntity;
 import com.example.demo.dao.model.SubjectEntity;
 import com.example.demo.dao.model.TeacherEntity;
 import com.example.demo.dao.repository.SubjectRepository;
@@ -36,7 +37,7 @@ public class TeacherServiseImp implements TeacherService {
 
     @Transactional
     @Override
-    public void update(String name, int price, String email) {
+    public void update(String name, int price, String email) throws IllegalStateException {
 
         final TeacherEntity teacherEntity = teacherRepository.findByEmail(email);
         final SubjectEntity subjectEntity = subjectRepository.findSubjectEntitiesByName(name);
@@ -57,7 +58,7 @@ public class TeacherServiseImp implements TeacherService {
 
     @Transactional
     @Override
-    public TeacherDTO findOne(String email) {
+    public TeacherDTO findOne(String email)  {
 
         final TeacherEntity teacherEntity = teacherRepository.findByEmail(email);
         TeacherDTO teacherDTO = teacherEntity.toTeacherDTO();
@@ -80,5 +81,13 @@ public class TeacherServiseImp implements TeacherService {
         });
 
         return teacherDTOList;
+    }
+
+    @Transactional
+    @Override
+    public long count() {
+        List<TeacherEntity> teacherEntities = teacherRepository.findAll();
+        Long count = Long.valueOf(teacherEntities.size());
+        return count;
     }
 }

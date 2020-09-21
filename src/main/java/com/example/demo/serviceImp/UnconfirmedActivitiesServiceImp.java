@@ -149,4 +149,23 @@ public class UnconfirmedActivitiesServiceImp implements UnconfirmedActivitiesSer
 
         emailSender.send(simpleMailMessage);
     }
+
+    @Transient
+    @Override
+    public long countForStudent(String email) {
+        return unconfirmedActivitiesRepository.findByEmailStudent(email).size();
+    }
+
+
+    @Transient
+    @Override
+    public long countForTeacher(String email) {
+        return unconfirmedActivitiesRepository.findByEmailTeacher(email).size();
+    }
+
+    @Transient
+    @Override
+    public UnconfirmedActivitiesDTO findById(Long id) {
+        return unconfirmedActivitiesRepository.findByIds(id).toUnconfirmedActivitiesDTO();
+    }
 }

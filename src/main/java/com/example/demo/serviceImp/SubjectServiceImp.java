@@ -66,4 +66,11 @@ public class SubjectServiceImp implements SubjectService {
 
         subjectRepository.save(subjectEntity);
     }
+
+    @Override
+    public long count() {
+        List<SubjectEntity> subjectEntities = subjectRepository.findAll();
+        Long count = Long.valueOf(subjectEntities.size());
+        return count;
+    }
 }

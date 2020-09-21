@@ -1,6 +1,7 @@
 package com.example.demo.serviceImp;
 
 import com.example.demo.dao.model.CalendarEntity;
+import com.example.demo.dao.model.StudentEntity;
 import com.example.demo.dao.model.TeacherEntity;
 import com.example.demo.dao.repository.CalendarRepository;
 import com.example.demo.dao.repository.TeacherRepository;
@@ -10,6 +11,7 @@ import com.example.demo.service.CalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.beans.Transient;
 import java.text.ParseException;
@@ -45,9 +47,9 @@ public class CalendarServiceImp implements CalendarService {
     @Transient
     @Override
     public void save(Date startData, Date endData, Long timeLessons, String email) throws ParseException, EntetyWithDateStartAndDateEndNotCreate {
-
         final TeacherEntity teacherEntity = teacherRepository.findByEmail(email);
         Integer money;
+        System.out.println(startData.getTime() + " - - -   -" + teacherEntity.getPrice() + " - -  -  - -- " + endData.getTime());
         long l = (endData.getTime() - startData.getTime()) / 1000 / 60;
         if (teacherEntity.getPrice() == null)
             teacherEntity.setPrice(0);
@@ -68,5 +70,32 @@ public class CalendarServiceImp implements CalendarService {
             } else
                 throw new EntetyWithDateStartAndDateEndNotCreate();
         }
+    }
+
+    @Transactional
+    @Override
+    public List<CalendarDTO> findAll(String email) {
+        final List<CalendarEntity> calendarEntities = calendarRepository.findByTeacherEntity_Email(email);
+        List<CalendarDTO> calendarDTOS = new ArrayList<>();
+        calendarEntities.forEach(x -> {
+            calendarDTOS.add(x.toCalendarDTO());
+        });
+        return calendarDTOS;
+    }
+
+    @Transactional
+    @Override
+    public long count() {
+        List<CalendarEntity> calendarEntities = calendarRepository.findAll();
+        Long count = Long.valueOf(calendarEntities.size());
+        return count;
+    }
+
+
+    @Transactional
+    @Override
+    public CalendarDTO findById(Long ids) {
+        CalendarEntity calendarEntity = calendarRepository.findByIds(ids);
+        return calendarEntity.toCalendarDTO();
     }
 }

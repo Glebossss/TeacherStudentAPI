@@ -1,5 +1,6 @@
 package com.example.demo.dao.repository;
 
+import com.example.demo.dao.model.UnconfirmedActivitiesEntity;
 import com.example.demo.dao.model.СonfirmedActivitiesEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,4 +25,7 @@ public interface СonfirmedActivitiesRepository extends JpaRepository<Сonfirmed
     @Query("SELECT u FROM СonfirmedActivitiesEntity u where u.teacherEntity.email = :emailTeacher and u.studentEntity.email = :emailStudent and u.dateStart = :dataStart  and u.dateEnd = :dataEnd")
     СonfirmedActivitiesEntity findByEmailTeacherAndStudent(@Param("emailTeacher") String emailTeacher, @Param("emailStudent") String emailStudent,
                                                            @Param("dataStart") Date dataStart, @Param("dataEnd") Date dataEnd);
+
+    @Query("SELECT u FROM СonfirmedActivitiesEntity u where u.id = :id")
+    СonfirmedActivitiesEntity findByIds(@Param("id") Long id);
 }

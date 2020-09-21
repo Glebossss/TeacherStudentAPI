@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <title>Google Authentication sample</title>
+
+    <link rel="stylesheet" href="css/login.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <style>
+        body {
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="#" class="navbar-brand ">MySite</a>
+        </div>
+
+        <div>
+            <ul class="nav navbar-nav">
+                <li><a href="/students.html">Home</a></li>
+                <li ><a href="/teacher.html">All Teacher</a></li>
+                <li><a href="/unconfirmedactivitiesforstudent.html">Unconfirm Lesons</a></li>
+                <li><a href="/confirmedactivitiesforstudent.html">Confirm Lessons</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<br>
+<img class="thumbnail" id="avatar" src="">
+<div id="login">...</div>
+<div id="name">...</div>
+<div id="role">...</div>
+<br>
+<table id="data" class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Data End</th>
+        <th scope="col">Data Start</th>
+        <th scope="col">Mony</th>
+        <th scope="col">Time</th>
+        <th scope="col">Record</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+
+
+<footer>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <p class="text-center text-muted">2020 Gleb Developer</p>
+        </div>
+    </nav>
+</footer>
+<script>
+    function record(id) {
+        let emails = localStorage.getItem('email');
+        // console.log(emails)
+        // var email = 'gomenyukgleb@gmail.com';
+        var ids = id;
+        $.ajax({
+            type: "POST",
+            url: "/unconfirmedactivitiesforstudent",
+            data: {ids: ids,
+            'email': emails},
+            success: function (data) {
+                window.location.reload()
+                console.log("Success")
+            }
+        })
+    }
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="js/teacherrecord.js"></script>
+
+</body>
+</html>
