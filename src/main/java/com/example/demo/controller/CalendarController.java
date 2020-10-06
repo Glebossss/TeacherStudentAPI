@@ -52,10 +52,9 @@ public class CalendarController {
     @ApiOperation(value = "Create new calendar for user", response = CalendarDTO.class)
     public ResponseEntity<ResultDTO> addCalendar(@PathVariable("emailuser") String email, @RequestBody CalendarDTO calendarDTO) throws ParseException, DateNotCorrect, EntetyWithDateStartAndDateEndNotCreate {
         //Date check.
-        System.out.println("----------------- " + email + " -  - - - - - - -   -");
-//        if (calendarDTO.getDataEnd().getTime() - calendarDTO.getDateStart().getTime() < 0) {
-//            throw new DateNotCorrect();
-//        }
+        if (calendarDTO.getDataEnd().getTime() - calendarDTO.getDateStart().getTime() < 0) {
+            throw new DateNotCorrect();
+        }
         String e = "gomenyukgleb@gmail.com";
         calendarService.save(calendarDTO.getDateStart(), calendarDTO.getDataEnd(), calendarDTO.getTime(), e);
 

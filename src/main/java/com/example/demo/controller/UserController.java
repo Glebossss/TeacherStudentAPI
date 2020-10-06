@@ -54,8 +54,8 @@ public class UserController {
     //Change role for user.
     @PostMapping
     @ApiOperation(value = "Changing user role", response = UserDTO.class)
-    public String setStatys(@RequestParam String email) throws AccessNotSuccessful {
-        //final Map<String, Object> attrs = auth.getPrincipal().getAttributes();
+    public String setStatys(OAuth2AuthenticationToken auth, @RequestParam String email) throws AccessNotSuccessful {
+        final Map<String, Object> attrs = auth.getPrincipal().getAttributes();
         final UserDTO userDTO = userService.findByLogin(email);
         final String roleUser = userService.findByLogin(email).getRole().toString();
         if (roleUser.equals(ADMINROLE)) {
